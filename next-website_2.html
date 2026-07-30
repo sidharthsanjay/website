@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXT — Backend & IT Services for RHS Middle East</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0F1C;
+    --surface: #121A2B;
+    --surface-2: #1A2438;
+    --line: #26314A;
+    --text: #E8ECF4;
+    --text-dim: #8B94AC;
+    --accent: #00E5B8;
+    --accent-dim: #0C3A34;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{ font-family:'Space Grotesk', sans-serif; font-weight:600; letter-spacing:-0.01em; }
+  .mono{ font-family:'JetBrains Mono', monospace; letter-spacing:0.02em; }
+  a{color:inherit; text-decoration:none;}
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  section{ padding:120px 0; position:relative; }
+
+  /* NAV */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(10,15,28,0.85); backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{ display:flex; align-items:center; justify-content:space-between; gap:24px; padding:18px 32px; max-width:1180px; margin:0 auto; }
+  .logo{ display:flex; align-items:center; gap:10px; font-size:18px; font-weight:700; flex-shrink:0; }
+  .logo-mark{ width:10px; height:10px; background:var(--accent); border-radius:2px; box-shadow:0 0 12px var(--accent); flex-shrink:0; }
+  .logo-text{ display:flex; flex-direction:column; line-height:1.1; }
+  .logo-full{ font-family:'JetBrains Mono', monospace; font-weight:400; font-size:9px; color:var(--text-dim); letter-spacing:0.01em; margin-top:3px; white-space:nowrap; }
+  .navlinks{ display:flex; gap:22px; flex-shrink:1; }
+  .navlinks a{ font-size:14px; color:var(--text-dim); transition:color .2s; white-space:nowrap; }
+  .navlinks a:hover{ color:var(--text); }
+  .nav-cta{ display:flex; gap:12px; flex-shrink:0; }
+  .btn{
+    font-size:14px; font-weight:500; padding:10px 20px; border-radius:8px;
+    border:1px solid var(--line); transition:all .2s; cursor:pointer;
+  }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
+  .btn-solid{ background:var(--accent); color:#04211C; border:none; font-weight:600; }
+  .btn-solid:hover{ opacity:0.88; }
+  .mobile-toggle{ display:none; }
+
+  /* HERO */
+  .hero{ padding:200px 0 120px; position:relative; }
+  .hero-grid{ display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center; }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size:12px; color:var(--accent);
+    background:var(--accent-dim); padding:6px 12px; border-radius:100px; margin-bottom:24px;
+  }
+  .eyebrow::before{ content:''; width:6px; height:6px; background:var(--accent); border-radius:50%; }
+  .hero h1{ font-size:52px; line-height:1.08; margin-bottom:24px; }
+  .hero h1 span{ color:var(--accent); }
+  .hero p{ font-size:17px; color:var(--text-dim); max-width:480px; margin-bottom:36px; }
+  .hero-actions{ display:flex; gap:14px; }
+
+  /* Node diagram */
+  .node-diagram{ position:relative; height:420px; }
+  .node-diagram svg{ width:100%; height:100%; }
+  .node-line{ stroke:var(--line); stroke-width:1.5; }
+  .node-line.active{ stroke:var(--accent); stroke-dasharray:4 4; animation:dash 20s linear infinite; }
+  @keyframes dash{ to{ stroke-dashoffset:-1000; } }
+  .node-dot{ fill:var(--surface-2); stroke:var(--line); stroke-width:1.5; }
+  .node-dot.core{ fill:var(--accent-dim); stroke:var(--accent); }
+  .node-pulse{ fill:var(--accent); opacity:0; animation:pulse 3s ease-in-out infinite; }
+  @keyframes pulse{ 0%{ opacity:0; r:3; } 50%{ opacity:0.6; r:6; } 100%{ opacity:0; r:3; } }
+  .node-label{ font-family:'JetBrains Mono', monospace; font-size:10px; fill:var(--text-dim); }
+
+  /* SECTION HEAD */
+  .section-head{ margin-bottom:64px; max-width:640px; }
+  .section-tag{ font-size:12px; color:var(--accent); margin-bottom:12px; display:block; }
+  .section-head h2{ font-size:34px; margin-bottom:16px; }
+  .section-head p{ color:var(--text-dim); font-size:16px; }
+
+  /* HOW IT WORKS - pipeline */
+  .pipeline{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+  .pipe-step{ background:var(--surface); padding:32px 28px; position:relative; }
+  .pipe-num{ font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--accent); margin-bottom:16px; display:block; }
+  .pipe-step h3{ font-size:18px; margin-bottom:10px; }
+  .pipe-step p{ font-size:14px; color:var(--text-dim); }
+
+  /* LOCATIONS */
+  .locations-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .loc-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:28px; }
+  .loc-card .mono{ font-size:12px; color:var(--accent); display:block; margin-bottom:12px; }
+  .loc-card h3{ font-size:20px; margin-bottom:8px; }
+  .loc-card p{ font-size:14px; color:var(--text-dim); }
+
+  /* TEAM */
+  .team-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .team-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px; text-align:left; }
+  .avatar{ width:48px; height:48px; border-radius:10px; background:linear-gradient(135deg,var(--accent-dim),var(--surface-2)); border:1px solid var(--line); margin-bottom:16px; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--accent); }
+  .team-card h4{ font-size:15px; margin-bottom:4px; }
+  .team-card span{ font-size:13px; color:var(--text-dim); }
+
+  /* PARENT COMPANY */
+  .parent-block{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:56px; }
+  .parent-block h2{ font-size:28px; margin-bottom:18px; }
+  .parent-block p{ color:var(--text-dim); margin-bottom:24px; }
+  .stat-row{ display:flex; gap:36px; }
+  .stat{ }
+  .stat b{ display:block; font-size:26px; font-family:'JetBrains Mono', monospace; color:var(--accent); }
+  .stat span{ font-size:13px; color:var(--text-dim); }
+  .parent-visual{ height:220px; border:1px solid var(--line); border-radius:14px; background:
+    radial-gradient(circle at 30% 30%, var(--accent-dim), transparent 60%),
+    var(--surface-2);
+    position:relative; overflow:hidden;
+  }
+
+  /* PORTALS */
+  .portal-grid{ display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .portal-card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:40px; position:relative; overflow:hidden; }
+  .portal-card::before{ content:''; position:absolute; top:-40%; right:-20%; width:200px; height:200px; background:radial-gradient(circle, var(--accent-dim), transparent 70%); }
+  .portal-icon{ width:40px; height:40px; border-radius:10px; background:var(--accent-dim); border:1px solid var(--accent); margin-bottom:24px; }
+  .portal-card h3{ font-size:22px; margin-bottom:12px; }
+  .portal-card p{ color:var(--text-dim); font-size:14px; margin-bottom:24px; }
+  .lock-badge{ display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--text-dim); margin-top:16px; }
+  .lock-badge::before{ content:'\26BF'; color:var(--accent); }
+
+  /* CAREERS */
+  .job-row{ display:flex; justify-content:space-between; align-items:center; padding:24px 0; border-bottom:1px solid var(--line); }
+  .job-row:first-child{ border-top:1px solid var(--line); }
+  .job-title{ font-size:17px; font-weight:500; }
+  .job-meta{ font-size:13px; color:var(--text-dim); margin-top:6px; }
+  .job-meta span{ margin-right:16px; }
+  .job-arrow{ color:var(--accent); font-family:'JetBrains Mono',monospace; }
+
+  /* CONTACT */
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; }
+  .contact-info div{ margin-bottom:28px; }
+  .contact-info .mono{ font-size:12px; color:var(--accent); display:block; margin-bottom:6px; }
+  .contact-info p{ font-size:15px; }
+  form{ display:flex; flex-direction:column; gap:16px; }
+  input, textarea{
+    background:var(--surface); border:1px solid var(--line); color:var(--text);
+    padding:14px 16px; border-radius:8px; font-family:'Inter'; font-size:14px;
+  }
+  input:focus, textarea:focus{ outline:2px solid var(--accent); outline-offset:2px; }
+  textarea{ resize:vertical; min-height:110px; }
+
+  footer{ border-top:1px solid var(--line); padding:48px 0; }
+  .footer-grid{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+  .footer-links{ display:flex; gap:24px; font-size:13px; color:var(--text-dim); }
+
+  @media (max-width: 1150px){
+    .navlinks{ display:none; }
+  }
+  @media (max-width: 900px){
+    .hero-grid, .parent-block, .portal-grid, .contact-grid{ grid-template-columns:1fr; }
+    .pipeline, .locations-grid{ grid-template-columns:1fr; }
+    .team-grid{ grid-template-columns:repeat(2,1fr); }
+    .hero h1{ font-size:36px; }
+    section{ padding:80px 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .node-line.active, .node-pulse{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <span class="logo-mark"></span>
+      <span class="logo-text">
+        NEXT
+        <span class="logo-full">Navigators of Enterprise eXcellence &amp; Technology</span>
+      </span>
+    </div>
+    <div class="navlinks">
+      <a href="#about">How it works</a>
+      <a href="#locations">Locations</a>
+      <a href="#team">Team</a>
+      <a href="#parent">RHS Middle East</a>
+      <a href="#careers">Careers</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn btn-ghost">Client Login</a>
+      <a href="#" class="btn btn-solid">Team Login</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow mono">IT & BACKEND SERVICES</span>
+      <h1>The systems layer behind <span>RHS Middle East.</span></h1>
+      <p>NEXT runs the ERP, Infor LN, and iSeries infrastructure that keeps RHS Middle East operating — quietly, securely, and always on.</p>
+      <div class="hero-actions">
+        <a href="#about" class="btn btn-solid">See how it works</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="node-diagram">
+      <svg viewBox="0 0 420 420">
+        <line class="node-line active" x1="210" y1="210" x2="80" y2="90"/>
+        <line class="node-line active" x1="210" y1="210" x2="340" y2="90"/>
+        <line class="node-line active" x1="210" y1="210" x2="80" y2="330"/>
+        <line class="node-line active" x1="210" y1="210" x2="340" y2="330"/>
+        <line class="node-line" x1="80" y1="90" x2="60" y2="30"/>
+        <line class="node-line" x1="340" y1="90" x2="360" y2="30"/>
+
+        <circle class="node-dot core" cx="210" cy="210" r="34"/>
+        <text x="210" y="206" text-anchor="middle" class="node-label" fill="#00E5B8" font-size="12" font-weight="600">NEXT</text>
+        <text x="210" y="220" text-anchor="middle" class="node-label">CORE</text>
+
+        <circle class="node-dot" cx="80" cy="90" r="22"/>
+        <text x="80" y="94" text-anchor="middle" class="node-label">ERP</text>
+
+        <circle class="node-dot" cx="340" cy="90" r="22"/>
+        <text x="340" y="94" text-anchor="middle" class="node-label">INFOR LN</text>
+
+        <circle class="node-dot" cx="80" cy="330" r="22"/>
+        <text x="80" y="334" text-anchor="middle" class="node-label">ISERIES</text>
+
+        <circle class="node-dot" cx="340" cy="330" r="22"/>
+        <text x="340" y="334" text-anchor="middle" class="node-label">SUPPORT</text>
+
+        <circle class="node-pulse" cx="80" cy="90" r="3" style="animation-delay:0s"/>
+        <circle class="node-pulse" cx="340" cy="90" r="3" style="animation-delay:0.8s"/>
+        <circle class="node-pulse" cx="80" cy="330" r="3" style="animation-delay:1.6s"/>
+        <circle class="node-pulse" cx="340" cy="330" r="3" style="animation-delay:2.4s"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag mono">// HOW IT WORKS</span>
+      <h2>One pipeline, four disciplines</h2>
+      <p>NEXT operates as a single backend pipeline for RHS Middle East — from raw infrastructure to the systems people use every day.</p>
+    </div>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <span class="pipe-num mono">01</span>
+        <h3>Infrastructure</h3>
+        <p>Servers, networks, and iSeries environments kept secure and available.</p>
+      </div>
+      <div class="pipe-step">
+        <span class="pipe-num mono">02</span>
+        <h3>ERP Operations</h3>
+        <p>Day-to-day administration and support of core ERP systems.</p>
+      </div>
+      <div class="pipe-step">
+        <span class="pipe-num mono">03</span>
+        <h3>Infor LN</h3>
+        <p>Configuration, customization, and upgrades on the LN platform.</p>
+      </div>
+      <div class="pipe-step">
+        <span class="pipe-num mono">04</span>
+        <h3>Client Support</h3>
+        <p>Direct technical support for RHS teams and client accounts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="locations">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag mono">// LOCATIONS</span>
+      <h2>Where NEXT operates</h2>
+      <p>[Add each office location, address, and working hours here.]</p>
+    </div>
+    <div class="locations-grid">
+      <div class="loc-card">
+        <span class="mono">HQ — 01</span>
+        <h3>[City, Country]</h3>
+        <p>[Street address, building name]<br>[Phone / working hours]</p>
+      </div>
+      <div class="loc-card">
+        <span class="mono">Branch — 02</span>
+        <h3>[City, Country]</h3>
+        <p>[Street address, building name]<br>[Phone / working hours]</p>
+      </div>
+      <div class="loc-card">
+        <span class="mono">Branch — 03</span>
+        <h3>[City, Country]</h3>
+        <p>[Street address, building name]<br>[Phone / working hours]</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag mono">// MEMBERS</span>
+      <h2>The people behind NEXT</h2>
+      <p>[Replace with real team members, titles, and photos.]</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card"><div class="avatar mono">JD</div><h4>[Full Name]</h4><span>[Title / Role]</span></div>
+      <div class="team-card"><div class="avatar mono">JD</div><h4>[Full Name]</h4><span>[Title / Role]</span></div>
+      <div class="team-card"><div class="avatar mono">JD</div><h4>[Full Name]</h4><span>[Title / Role]</span></div>
+      <div class="team-card"><div class="avatar mono">JD</div><h4>[Full Name]</h4><span>[Title / Role]</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="parent">
+  <div class="wrap">
+    <div class="parent-block">
+      <div>
+        <span class="section-tag mono">// PARENT COMPANY</span>
+        <h2>RHS Middle East</h2>
+        <p>[A short paragraph on RHS Middle East — what the group does, its history, and how NEXT fits within it as the IT and backend services arm.]</p>
+        <div class="stat-row">
+          <div class="stat"><b>[X]</b><span>Years operating</span></div>
+          <div class="stat"><b>[X]</b><span>Locations</span></div>
+          <div class="stat"><b>[X]</b><span>Team members</span></div>
+        </div>
+      </div>
+      <div class="parent-visual"></div>
+    </div>
+  </div>
+</section>
+
+<section id="portals">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag mono">// ACCESS</span>
+      <h2>Built for clients and the team</h2>
+      <p>Secure, role-based access — separate spaces for clients and internal staff.</p>
+    </div>
+    <div class="portal-grid">
+      <div class="portal-card">
+        <div class="portal-icon"></div>
+        <h3>Client Portal</h3>
+        <p>Track tickets, view service status, and access account documents in one place.</p>
+        <a href="#" class="btn btn-solid">Client Login</a>
+        <div class="lock-badge">256-bit encrypted, role-based access</div>
+      </div>
+      <div class="portal-card">
+        <div class="portal-icon"></div>
+        <h3>Team Portal</h3>
+        <p>Internal tools, project boards, and resources for NEXT team members.</p>
+        <a href="#" class="btn btn-ghost">Team Login</a>
+        <div class="lock-badge">SSO + two-factor authentication</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="careers">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-tag mono">// CAREERS</span>
+      <h2>Work on systems that matter</h2>
+      <p>[Replace with real open roles.]</p>
+    </div>
+    <div class="job-list">
+      <div class="job-row">
+        <div><div class="job-title">[Job Title]</div><div class="job-meta"><span>[Location]</span><span>[Full-time]</span></div></div>
+        <span class="job-arrow">→</span>
+      </div>
+      <div class="job-row">
+        <div><div class="job-title">[Job Title]</div><div class="job-meta"><span>[Location]</span><span>[Full-time]</span></div></div>
+        <span class="job-arrow">→</span>
+      </div>
+      <div class="job-row">
+        <div><div class="job-title">[Job Title]</div><div class="job-meta"><span>[Location]</span><span>[Full-time]</span></div></div>
+        <span class="job-arrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-info">
+      <span class="section-tag mono">// CONTACT</span>
+      <h2 style="margin-bottom:32px;">Talk to NEXT</h2>
+      <div><span class="mono">EMAIL</span><p>[contact@next-example.com]</p></div>
+      <div><span class="mono">PHONE</span><p>[+000 0000 0000]</p></div>
+      <div><span class="mono">ADDRESS</span><p>[HQ address]</p></div>
+    </div>
+    <form onsubmit="event.preventDefault(); alert('Form UI only — connect to a backend to send this.');">
+      <input type="text" placeholder="Your name" required>
+      <input type="email" placeholder="Your email" required>
+      <input type="text" placeholder="Company">
+      <textarea placeholder="Message"></textarea>
+      <button type="submit" class="btn btn-solid" style="align-self:flex-start;">Send message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div class="logo"><span class="logo-mark"></span>NEXT</div>
+    <div class="footer-links">
+      <span>© 2026 NEXT — a backend services company of RHS Middle East</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
